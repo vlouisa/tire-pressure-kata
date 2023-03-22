@@ -11,10 +11,14 @@ public class AlarmService {
     private AlarmStatus alarmStatus = AlarmStatus.OFF;
     
     public void check() {
-        var psiPressureValue = tireSensor.measureTirePressure();
+        var psiPressureValue = measureTirePressure();
         if (psiPressureValue < LowPressureThreshold || HighPressureThreshold < psiPressureValue) {
             alarmStatus = AlarmStatus.ON;
         }
+    }
+
+    protected double measureTirePressure() {
+        return tireSensor.measureTirePressure();
     }
 
     public AlarmStatus getAlarmStatus() {

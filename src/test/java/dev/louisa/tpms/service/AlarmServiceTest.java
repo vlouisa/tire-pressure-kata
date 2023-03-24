@@ -1,6 +1,7 @@
 package dev.louisa.tpms.service;
 
 import dev.louisa.tpms.sensor.TireSensor;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,9 +21,13 @@ class AlarmServiceTest {
     @Mock
     private TireSensor tireSensor;
 
+    @BeforeEach
+    void setUp() {
+        alarmService = new TestableAlarmService(tireSensor);
+    }
+    
     @Test
     void should_not_activate_alarm_when_service_is_initialized() {
-        alarmService = new AlarmService();
         assertThat(alarmService.getAlarmStatus()).isEqualTo(OFF);
     }
 
@@ -30,8 +35,6 @@ class AlarmServiceTest {
     @ValueSource(doubles = {24.0, 27.3, 29.0})
     void should_not_activate_alarm_when_pressure_is_optimal(double tirePressure) {
         when(tireSensor.measureTirePressure()).thenReturn(tirePressure);
-
-        alarmService = new TestableAlarmService(tireSensor);
 
         alarmService.check();
         assertThat(alarmService.getAlarmStatus()).isEqualTo(OFF);
@@ -42,8 +45,6 @@ class AlarmServiceTest {
     void should_activate_alarm_when_pressure_is_too_low(double tirePressure) {
         when(tireSensor.measureTirePressure()).thenReturn(tirePressure);
 
-        alarmService = new TestableAlarmService(tireSensor);
-
         alarmService.check();
         assertThat(alarmService.getAlarmStatus()).isEqualTo(ON);
     }
@@ -52,8 +53,6 @@ class AlarmServiceTest {
     @ValueSource(doubles = {29.01, 31.5})
     void should_activate_alarm_when_pressure_is_too_high(double tirePressure) {
         when(tireSensor.measureTirePressure()).thenReturn(tirePressure);
-
-        alarmService = new TestableAlarmService(tireSensor);
 
         alarmService.check();
         assertThat(alarmService.getAlarmStatus()).isEqualTo(ON);

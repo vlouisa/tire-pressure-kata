@@ -3,13 +3,11 @@ package dev.louisa.tpms.service;
 import dev.louisa.tpms.sensor.TireSensor;
 
 public class AlarmService {
-    private final double LowPressureThreshold = 24;
-    private final double HighPressureThreshold = 29;
     private final Alarm alarm;
     private final PressureGauge pressureGauge;
 
-    public AlarmService(Alarm alarm) {
-        this.pressureGauge = new PressureGauge(LowPressureThreshold, HighPressureThreshold);
+    public AlarmService(Alarm alarm, PressureGauge pressureGauge) {
+        this.pressureGauge = pressureGauge;
         this.alarm = alarm;
     }
 

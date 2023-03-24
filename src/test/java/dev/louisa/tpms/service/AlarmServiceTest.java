@@ -22,7 +22,7 @@ class AlarmServiceTest {
 
     @BeforeEach
     void setUp() {
-        alarmService = new AlarmService(new Alarm());
+        alarmService = new AlarmService(new Alarm(), new PressureGauge(24, 29));
     }
 
     @Test

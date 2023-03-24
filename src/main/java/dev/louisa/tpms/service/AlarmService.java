@@ -14,9 +14,13 @@ public class AlarmService {
     }
 
     public void check(TireSensor tireSensor) {
-        if (!(pressureGauge.measure(tireSensor) == Pressure.OPTIMAL)) {
+        if (pressureIsNotOptimal(tireSensor)) {
             alarm.activate();  
         }
+    }
+
+    private boolean pressureIsNotOptimal(TireSensor tireSensor) {
+        return !(pressureGauge.measure(tireSensor) == Pressure.OPTIMAL);
     }
 
     public AlarmStatus getAlarmStatus() {

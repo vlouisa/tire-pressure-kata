@@ -13,20 +13,32 @@ public class PressureGauge {
     public Pressure measure(TireSensor tireSensor) {
         try {
             var pressure = tireSensor.measureTirePressure();
-            
-            if (pressure < lowPressureThreshold) {
-                throw new TpmsPressureTooLowException();
-            }
 
-            if (pressure > highPressureThreshold) {
-                throw new TpmsPressureTooHighException();
-            }
+            new PressureTooLowCheck().execute(pressure);
+            new PressureTooHighCheck().execute(pressure);
 
             return OPTIMAL;
         } catch (TpmsPressureTooLowException e) {
             return TOO_LOW;   
         } catch (TpmsPressureTooHighException e) {
             return TOO_HIGH;
+        }
+    }
+
+    private class PressureTooLowCheck {
+
+        public void execute(double pressure) {
+            if (pressure < lowPressureThreshold) {
+                throw new TpmsPressureTooLowException();
+            }
+        }
+    }
+
+    private class PressureTooHighCheck {
+        public void execute(double pressure) {
+            if (pressure > highPressureThreshold) {
+                throw new TpmsPressureTooHighException();
+            }
         }
     }
 }

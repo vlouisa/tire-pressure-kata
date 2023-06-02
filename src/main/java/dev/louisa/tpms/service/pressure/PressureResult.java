@@ -1,5 +1,5 @@
 package dev.louisa.tpms.service.pressure;
 
-public enum Pressure {
+public enum PressureResult {
     OPTIMAL, TOO_LOW, TOO_HIGH
 }

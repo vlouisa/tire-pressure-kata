@@ -1,13 +1,17 @@
 package dev.louisa.tpms.service;
 
 import dev.louisa.tpms.sensor.TireSensor;
+import dev.louisa.tpms.service.pressure.PressureCheck;
+import dev.louisa.tpms.service.pressure.PressureGauge;
+import dev.louisa.tpms.service.pressure.PressureTooHighCheck;
+import dev.louisa.tpms.service.pressure.PressureTooLowCheck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static dev.louisa.tpms.service.Pressure.*;
+import static dev.louisa.tpms.service.pressure.Pressure.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -19,7 +23,16 @@ class PressureGaugeTest {
 
     @BeforeEach
     void setUp() {
-        pressureGauge = new PressureGauge(20.0, 25.0);
+        PressureCheck pressureCheck = createChain(20.0, 25.0);
+        pressureGauge = new PressureGauge(pressureCheck);
+    }
+
+    //TODO: redundant-1
+    private static PressureCheck createChain(double lowPressureThreshold , double highPressureThreshold) {
+        var tooHighCheck = new PressureTooHighCheck(highPressureThreshold);
+        var tooLowCheck = new PressureTooLowCheck(lowPressureThreshold);
+        tooLowCheck.setNextCheck(tooHighCheck);
+        return tooLowCheck;
     }
 
     @Test

@@ -1,6 +1,6 @@
-package dev.louisa.tpms.service;
+package dev.louisa.tpms.service.pressure;
 
-abstract class PressureCheck {
+public abstract class PressureCheck {
     private PressureCheck nextCheck;
 
     public final void setNextCheck(PressureCheck pressureCheck) {

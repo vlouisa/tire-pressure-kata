@@ -1,6 +1,8 @@
-package dev.louisa.tpms.service;
+package dev.louisa.tpms.service.alarm;
 
 import dev.louisa.tpms.sensor.TireSensor;
+import dev.louisa.tpms.service.pressure.Pressure;
+import dev.louisa.tpms.service.pressure.PressureGauge;
 
 public class AlarmService {
     private final Alarm alarm;

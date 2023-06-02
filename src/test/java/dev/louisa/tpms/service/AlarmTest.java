@@ -1,5 +1,7 @@
 package dev.louisa.tpms.service;
 
+import dev.louisa.tpms.service.alarm.Alarm;
+import dev.louisa.tpms.service.alarm.AlarmStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

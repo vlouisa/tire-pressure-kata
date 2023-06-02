@@ -1,4 +1,4 @@
-package dev.louisa.tpms.service;
+package dev.louisa.tpms.service.alarm;
 
 public class Alarm {
 

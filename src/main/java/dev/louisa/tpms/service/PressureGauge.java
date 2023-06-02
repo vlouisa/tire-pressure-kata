@@ -14,8 +14,8 @@ public class PressureGauge {
         try {
             var pressure = tireSensor.measureTirePressure();
 
-            new PressureTooLowCheck().execute(pressure);
-            new PressureTooHighCheck().execute(pressure);
+            PressureCheck pressureCheck = createChain();
+            pressureCheck.execute(pressure);
 
             return OPTIMAL;
         } catch (TpmsPressureTooLowException e) {
@@ -25,20 +25,11 @@ public class PressureGauge {
         }
     }
 
-    private class PressureTooLowCheck {
-
-        public void execute(double pressure) {
-            if (pressure < lowPressureThreshold) {
-                throw new TpmsPressureTooLowException();
-            }
-        }
+    private PressureCheck createChain() {
+        var tooHighCheck = new PressureTooHighCheck(highPressureThreshold);
+        var tooLowCheck = new PressureTooLowCheck(lowPressureThreshold);
+        tooLowCheck.setNextCheck(tooHighCheck);
+        return tooLowCheck;
     }
 
-    private class PressureTooHighCheck {
-        public void execute(double pressure) {
-            if (pressure > highPressureThreshold) {
-                throw new TpmsPressureTooHighException();
-            }
-        }
-    }
 }

@@ -1,7 +1,7 @@
 package dev.louisa.tpms.service.alarm;
 
 import dev.louisa.tpms.sensor.TireSensor;
-import dev.louisa.tpms.service.pressure.PressureResult;
+import dev.louisa.tpms.service.pressure.PressureState;
 import dev.louisa.tpms.service.pressure.PressureGauge;
 
 public class PressureMonitorService {
@@ -24,6 +24,6 @@ public class PressureMonitorService {
     }
 
     private boolean pressureIsNotOptimal(TireSensor tireSensor) {
-        return !(pressureGauge.measure(tireSensor) == PressureResult.OPTIMAL);
+        return !(pressureGauge.check(tireSensor) == PressureState.OPTIMAL);
     }
 }

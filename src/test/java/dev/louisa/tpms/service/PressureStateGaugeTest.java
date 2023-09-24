@@ -11,12 +11,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static dev.louisa.tpms.service.pressure.PressureResult.*;
+import static dev.louisa.tpms.service.pressure.PressureState.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class PressureResultGaugeTest {
+class PressureStateGaugeTest {
     @Mock
     private TireSensor tireSensor;
     private PressureGauge pressureGauge;
@@ -38,18 +38,18 @@ class PressureResultGaugeTest {
     @Test
     void should_inform_that_pressure_is_optimal() {
         when(tireSensor.measureTirePressure()).thenReturn(22.6);
-        assertThat(pressureGauge.measure(tireSensor)).isEqualTo(OPTIMAL);
+        assertThat(pressureGauge.check(tireSensor)).isEqualTo(OPTIMAL);
     }
 
     @Test
     void should_inform_that_pressure_is_too_low() {
         when(tireSensor.measureTirePressure()).thenReturn(19.4);
-        assertThat(pressureGauge.measure(tireSensor)).isEqualTo(TOO_LOW);
+        assertThat(pressureGauge.check(tireSensor)).isEqualTo(TOO_LOW);
     }
 
     @Test
     void should_inform_that_pressure_is_too_high() {
         when(tireSensor.measureTirePressure()).thenReturn(27.8);
-        assertThat(pressureGauge.measure(tireSensor)).isEqualTo(TOO_HIGH);
+        assertThat(pressureGauge.check(tireSensor)).isEqualTo(TOO_HIGH);
     }
 }
